@@ -93,10 +93,8 @@
 
 <body class="overflow-x-hidden">
 
-    <!-- Background Audio (The World Is Ending - Instrumental Vibe) -->
-    <audio id="bg-music" loop>
-        <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-World-is-Ending.mp3" type="audio/mpeg">
-    </audio>
+    <!-- YouTube Player Container (Hidden) -->
+    <div id="youtube-player" class="fixed top-0 left-0 pointer-events-none opacity-0"></div>
 
     <!-- Music Control Toggle -->
     <button onclick="toggleMusic()" id="music-toggle"
@@ -221,19 +219,61 @@
     </div>
 
     <script>
-        const music = document.getElementById('bg-music');
+        // YouTube API Load
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
         const musicIcon = document.getElementById('music-icon');
         const musicStatus = document.getElementById('music-status');
 
-        function toggleMusic() {
-            if (music.paused) {
-                music.play();
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                videoId: 'kPa7bsKwL-c',
+                playerVars: {
+                    'autoplay': 1,
+                    'loop': 1,
+                    'playlist': 'kPa7bsKwL-c',
+                    'controls': 0,
+                    'showinfo': 0,
+                    'start': 0
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.setVolume(50);
+            event.target.playVideo();
+            updateMusicUI(true);
+        }
+
+        function updateMusicUI(isPlaying) {
+            if (isPlaying) {
                 musicIcon.innerText = "⏸";
                 musicStatus.innerText = "Mute";
             } else {
-                music.pause();
                 musicIcon.innerText = "🎵";
                 musicStatus.innerText = "Play Me";
+            }
+        }
+
+        function toggleMusic() {
+            if (!player || !player.playVideo) return;
+            
+            const state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                updateMusicUI(false);
+            } else {
+                player.playVideo();
+                updateMusicUI(true);
             }
         }
 
@@ -314,11 +354,13 @@
                 return;
             }
 
-            // Attempt to start music on first user interaction
-            if (music.paused) music.play().then(() => {
-                musicIcon.innerText = "⏸";
-                musicStatus.innerText = "Mute";
-            }).catch(() => { });
+            if (player && typeof player.playVideo === 'function') {
+                const state = player.getPlayerState();
+                if (state !== YT.PlayerState.PLAYING) {
+                    player.playVideo();
+                    updateMusicUI(true);
+                }
+            }
 
             document.getElementById('intro-section').classList.add('hidden');
             document.getElementById('game-section').classList.remove('hidden');
@@ -362,15 +404,15 @@
             const text = document.getElementById('challenge-text');
             const roundTitle = document.getElementById('round-title-display');
             const roundData = gameData[currentRound];
-
+            
             card.style.transform = type === "Truth" ? "rotateY(5deg)" : "rotateY(-5deg)";
-
+            
             setTimeout(() => {
                 const randomQ = roundData.questions[Math.floor(Math.random() * roundData.questions.length)];
                 text.innerText = `${type}: ${randomQ}`;
                 roundTitle.innerText = roundData.name;
                 card.style.transform = "rotateY(0deg)";
-
+                
                 if (type === "Truth") {
                     card.className = "bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-blue-200 shadow-inner card-inner";
                 } else {
