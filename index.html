@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Valentine's Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe3ec 100%);
+            min-height: 100vh;
+        }
+
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(254, 44, 85, 0.1);
+        }
+
+        .heart-float {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-inner {
+            transition: transform 0.3s ease;
+        }
+
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Music Button Pulse */
+        .pulse-pink {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <!-- Background Audio (The World Is Ending - Instrumental Vibe) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-World-is-Ending.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control Toggle -->
+    <button onclick="toggleMusic()" id="music-toggle"
+        class="fixed top-5 right-5 z-50 glass p-3 rounded-full pulse-pink text-pink-500 shadow-lg flex items-center gap-2 border border-pink-200">
+        <span id="music-icon">🎵</span>
+        <span class="text-xs font-bold uppercase tracking-tighter hidden md:block" id="music-status">Play Me</span>
+    </button>
+
+    <!-- Background Hearts -->
+    <div class="heart-float text-pink-200 top-10 left-10 text-6xl">♥</div>
+    <div class="heart-float text-pink-300 bottom-20 right-10 text-4xl" style="animation-delay: 1s;">♥</div>
+    <div class="heart-float text-pink-100 top-1/2 left-5 text-5xl" style="animation-delay: 2s;">♥</div>
+
+    <div class="relative z-10 container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen">
+
+        <!-- Step 1: The Intro/Confession -->
+        <div id="intro-section" class="glass rounded-3xl p-8 md:p-12 max-w-lg w-full text-center fade-in">
+            <h1 class="cursive text-5xl md:text-6xl text-pink-600 mb-6">Happy Valentine's Day!</h1>
+            <p class="text-gray-600 mb-8 leading-relaxed">
+                Before we start our game, I'd love to know... <br>
+                <span class="font-semibold text-pink-500">What’s the first thing that comes to your mind when you think
+                    of me?</span>
+            </p>
+
+            <textarea id="opinion-input"
+                class="w-full p-4 rounded-2xl border-2 border-pink-100 focus:border-pink-400 focus:outline-none transition-all resize-none h-32 mb-6"
+                placeholder="Be honest, be sweet, or be funny..."></textarea>
+
+            <button onclick="startGame()"
+                class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-4 px-10 rounded-full shadow-lg transform transition active:scale-95 hover:shadow-xl">
+                Unlock Our Game ✨
+            </button>
+        </div>
+
+        <!-- Step 2: Truth or Dare Game -->
+        <div id="game-section" class="hidden glass rounded-3xl p-8 md:p-12 max-w-2xl w-full text-center fade-in">
+            <div class="mb-6">
+                <div id="round-indicator"
+                    class="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-600 text-xs font-bold uppercase tracking-widest mb-2">
+                    Round 1: Icebreaker
+                </div>
+                <h2 class="cursive text-4xl text-pink-600 mb-2">The Valentine Challenge</h2>
+                <p id="user-greeting" class="text-pink-400 italic mb-4 text-sm"></p>
+                <div class="h-1 w-20 bg-pink-200 mx-auto rounded-full"></div>
+            </div>
+
+            <div id="card-display"
+                class="bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-pink-50 shadow-inner card-inner">
+                <p id="challenge-text" class="text-xl md:text-2xl text-gray-700 font-medium leading-relaxed">Choose your
+                    fate...</p>
+                <p id="round-title-display" class="mt-4 text-pink-300 text-sm font-light italic"></p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="getTruth()"
+                    class="bg-white border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white font-bold py-4 rounded-2xl transition-all shadow-md">
+                    TRUTH
+                </button>
+                <button onclick="getDare()"
+                    class="bg-pink-500 text-white hover:bg-pink-600 font-bold py-4 rounded-2xl transition-all shadow-md">
+                    DARE
+                </button>
+            </div>
+
+            <div class="mt-8 flex justify-between items-center w-full">
+                <button onclick="resetGame()" class="text-pink-300 hover:text-pink-500 text-sm transition-colors">
+                    ← Start Over
+                </button>
+                <button id="next-btn" onclick="nextRound()"
+                    class="bg-pink-100 text-pink-600 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pink-200 transition-colors">
+                    Next Round →
+                </button>
+                <button id="finish-btn" onclick="showClosing()"
+                    class="hidden bg-pink-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pink-700 transition-all shadow-lg animate-pulse">
+                    Finish Adventure ❤️
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Final Closing Screen -->
+        <div id="closing-section"
+            class="hidden glass rounded-3xl p-8 md:p-12 max-w-2xl w-full text-center fade-in max-h-[80vh] overflow-y-auto scroll-hide">
+            <div class="text-pink-500 text-4xl mb-6">❤️</div>
+
+            <div class="space-y-6 text-gray-700 leading-relaxed text-lg text-left italic font-light">
+                <p>If tonight reminded us of anything, it’s this: love isn’t limited by distance, time, or circumstance.
+                    It travels quietly between messages, lives inside shared laughter, and grows stronger in the simple
+                    moments when we show up for each other.</p>
+
+                <p>Love like this doesn’t need grand stages or perfect timing — it exists in the warmth we feel knowing
+                    someone out there cares deeply, genuinely, endlessly.</p>
+
+                <div class="py-6 border-y border-pink-100 space-y-4 text-pink-600 font-medium not-italic text-center">
+                    <p>Love is in the way we remember small details about one another.</p>
+                    <p>Love is in the way we listen.</p>
+                    <p>Love is in the way we stay.</p>
+                </div>
+
+                <p>What we shared here wasn’t just a game. It was a reminder that we are surrounded by hearts that
+                    choose us, support us, and celebrate us exactly as we are. That kind of love is rare. It’s the kind
+                    that makes ordinary days brighter, heavy days lighter, and life infinitely softer.</p>
+
+                <p>So wherever life takes you next, carry this feeling with you — the feeling of being seen,
+                    appreciated, and truly loved. Because you are not just someone passing through people’s lives. You
+                    are someone who leaves warmth behind, someone who makes hearts feel safe, someone who matters more
+                    than words can ever fully express.</p>
+
+                <p>And no matter how far apart we may be, that love stays. Always.</p>
+
+                <p class="text-center font-semibold text-pink-500 not-italic pt-6">
+                    Because real love — the kind we share — doesn’t fade. It stays, it grows, and it quietly reminds us:
+                    <br>
+                    <span class="text-3xl cursive mt-2 block">we belong in each other’s lives. 💗</span>
+                </p>
+            </div>
+
+            <button onclick="resetGame()"
+                class="mt-12 text-pink-300 hover:text-pink-500 text-sm transition-colors mb-4">
+                Play Again?
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const musicIcon = document.getElementById('music-icon');
+        const musicStatus = document.getElementById('music-status');
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicIcon.innerText = "⏸";
+                musicStatus.innerText = "Mute";
+            } else {
+                music.pause();
+                musicIcon.innerText = "🎵";
+                musicStatus.innerText = "Play Me";
+            }
+        }
+
+        const gameData = [
+            {
+                name: "Round 1 — Icebreaker",
+                questions: [
+                    "What fictional universe do I belong in?",
+                    "What vibe do I give off?",
+                    "What superpower do I secretly have?",
+                    "What song matches my personality?"
+                ]
+            },
+            {
+                name: "Round 2 — Funny Truths",
+                questions: [
+                    "What’s something I say a lot?",
+                    "What’s a habit of mine that makes you laugh?",
+                    "What emoji represents me?",
+                    "When have I been unintentionally hilarious?"
+                ]
+            },
+            {
+                name: "Round 3 — Geeky Round",
+                questions: [
+                    "If I were software, what features would I have?",
+                    "What programming language matches me?",
+                    "What bug would I have and how would you fix it?",
+                    "What would my system update notes say?"
+                ]
+            },
+            {
+                name: "Round 4 — Heart Round",
+                questions: [
+                    "What do you admire about me?",
+                    "What’s your favorite memory with me?",
+                    "What’s something you think I’m really good at?",
+                    "What makes me unique?"
+                ]
+            },
+            {
+                name: "Round 5 — Dares",
+                questions: [
+                    "Describe yourself like a movie trailer.",
+                    "Narrate your life like a documentary.",
+                    "Show the weirdest object near you.",
+                    "Sing 5 seconds of your theme song."
+                ]
+            },
+            {
+                name: "Round 6 — Chaos Finale",
+                questions: [
+                    "What would my biography title be?",
+                    "What’s my biggest main-character trait?",
+                    "What would my catchphrase be?",
+                    "What role would I play in a movie?"
+                ]
+            },
+            {
+                name: "Round 7 — Deep Bonding Finale",
+                questions: [
+                    "What’s one thing you hope we always keep in our relationship?",
+                    "How do you think we’ve helped each other grow?",
+                    "What’s something you appreciate about our bond that you’ve never said before?",
+                    "Where do you see us years from now?"
+                ]
+            }
+        ];
+
+        let currentRound = 0;
+
+        function startGame() {
+            const opinion = document.getElementById('opinion-input').value.trim();
+            if (!opinion) {
+                const box = document.getElementById('opinion-input');
+                box.classList.add('border-red-300');
+                setTimeout(() => box.classList.remove('border-red-300'), 1000);
+                return;
+            }
+
+            // Attempt to start music on first user interaction
+            if (music.paused) music.play().then(() => {
+                musicIcon.innerText = "⏸";
+                musicStatus.innerText = "Mute";
+            }).catch(() => { });
+
+            document.getElementById('intro-section').classList.add('hidden');
+            document.getElementById('game-section').classList.remove('hidden');
+            document.getElementById('user-greeting').innerText = `Your thought: “${opinion}”`;
+            updateRoundUI();
+        }
+
+        function updateRoundUI() {
+            const roundData = gameData[currentRound];
+            document.getElementById('round-indicator').innerText = roundData.name;
+            document.getElementById('challenge-text').innerText = "Pick Truth or Dare for " + roundData.name;
+            document.getElementById('round-title-display').innerText = "";
+
+            if (currentRound === gameData.length - 1) {
+                document.getElementById('next-btn').classList.add('hidden');
+                document.getElementById('finish-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('finish-btn').classList.add('hidden');
+            }
+        }
+
+        function nextRound() {
+            currentRound = (currentRound + 1) % gameData.length;
+            updateRoundUI();
+            const card = document.getElementById('card-display');
+            card.classList.add('scale-95');
+            setTimeout(() => card.classList.remove('scale-95'), 200);
+        }
+
+        function getTruth() {
+            displayQuestion("Truth");
+        }
+
+        function getDare() {
+            displayQuestion("Dare");
+        }
+
+        function displayQuestion(type) {
+            const card = document.getElementById('card-display');
+            const text = document.getElementById('challenge-text');
+            const roundTitle = document.getElementById('round-title-display');
+            const roundData = gameData[currentRound];
+
+            card.style.transform = type === "Truth" ? "rotateY(5deg)" : "rotateY(-5deg)";
+
+            setTimeout(() => {
+                const randomQ = roundData.questions[Math.floor(Math.random() * roundData.questions.length)];
+                text.innerText = `${type}: ${randomQ}`;
+                roundTitle.innerText = roundData.name;
+                card.style.transform = "rotateY(0deg)";
+
+                if (type === "Truth") {
+                    card.className = "bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-blue-200 shadow-inner card-inner";
+                } else {
+                    card.className = "bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-pink-200 shadow-inner card-inner";
+                }
+            }, 150);
+        }
+
+        function showClosing() {
+            document.getElementById('game-section').classList.add('hidden');
+            document.getElementById('closing-section').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetGame() {
+            currentRound = 0;
+            document.getElementById('game-section').classList.add('hidden');
+            document.getElementById('closing-section').classList.add('hidden');
+            document.getElementById('intro-section').classList.remove('hidden');
+            document.getElementById('opinion-input').value = "";
+            document.getElementById('challenge-text').innerText = "Choose your fate...";
+        }
+    </script>
+</body>
+
+</html>
