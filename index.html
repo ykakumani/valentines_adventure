@@ -63,14 +63,13 @@
         }
 
         .card-inner {
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .scroll-hide::-webkit-scrollbar {
             display: none;
         }
 
-        /* Music Button Pulse */
         .pulse-pink {
             animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
@@ -96,21 +95,19 @@
     <!-- YouTube Player Container (Hidden) -->
     <div id="youtube-player" class="fixed top-0 left-0 pointer-events-none opacity-0"></div>
 
-    <!-- Music Control Toggle -->
     <button onclick="toggleMusic()" id="music-toggle"
         class="fixed top-5 right-5 z-50 glass p-3 rounded-full pulse-pink text-pink-500 shadow-lg flex items-center gap-2 border border-pink-200">
         <span id="music-icon">🎵</span>
         <span class="text-xs font-bold uppercase tracking-tighter hidden md:block" id="music-status">Play Me</span>
     </button>
 
-    <!-- Background Hearts -->
     <div class="heart-float text-pink-200 top-10 left-10 text-6xl">♥</div>
     <div class="heart-float text-pink-300 bottom-20 right-10 text-4xl" style="animation-delay: 1s;">♥</div>
     <div class="heart-float text-pink-100 top-1/2 left-5 text-5xl" style="animation-delay: 2s;">♥</div>
 
     <div class="relative z-10 container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-screen">
 
-        <!-- Step 1: The Intro/Confession -->
+        <!-- Step 1: The Intro -->
         <div id="intro-section" class="glass rounded-3xl p-8 md:p-12 max-w-lg w-full text-center fade-in">
             <h1 class="cursive text-5xl md:text-6xl text-pink-600 mb-6">Happy Valentine's Day!</h1>
             <p class="text-gray-600 mb-8 leading-relaxed">
@@ -134,21 +131,23 @@
             <div class="mb-6">
                 <div id="round-indicator"
                     class="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-600 text-xs font-bold uppercase tracking-widest mb-2">
-                    Round 1: Icebreaker
+                    Round 1
                 </div>
-                <h2 class="cursive text-4xl text-pink-600 mb-2">The Valentine Challenge</h2>
+                <h2 class="cursive text-4xl text-pink-600 mb-2">Valentine Truth or Dare</h2>
                 <p id="user-greeting" class="text-pink-400 italic mb-4 text-sm"></p>
                 <div class="h-1 w-20 bg-pink-200 mx-auto rounded-full"></div>
             </div>
 
             <div id="card-display"
-                class="bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-pink-50 shadow-inner card-inner">
-                <p id="challenge-text" class="text-xl md:text-2xl text-gray-700 font-medium leading-relaxed">Choose your
-                    fate...</p>
-                <p id="round-title-display" class="mt-4 text-pink-300 text-sm font-light italic"></p>
+                class="bg-white rounded-2xl p-10 mb-8 min-h-[250px] flex flex-col items-center justify-center border-2 border-pink-50 shadow-inner card-inner relative overflow-hidden">
+                <div id="card-content" class="w-full transition-opacity duration-300">
+                    <p id="challenge-text" class="text-xl md:text-2xl text-gray-700 font-medium leading-relaxed">Choose
+                        your fate...</p>
+                    <p id="round-title-display" class="mt-4 text-pink-300 text-sm font-light italic"></p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div id="choice-buttons" class="grid grid-cols-2 gap-4">
                 <button onclick="getTruth()"
                     class="bg-white border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white font-bold py-4 rounded-2xl transition-all shadow-md">
                     TRUTH
@@ -164,7 +163,7 @@
                     ← Start Over
                 </button>
                 <button id="next-btn" onclick="nextRound()"
-                    class="bg-pink-100 text-pink-600 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pink-200 transition-colors">
+                    class="hidden bg-pink-100 text-pink-600 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pink-200 transition-colors">
                     Next Round →
                 </button>
                 <button id="finish-btn" onclick="showClosing()"
@@ -178,29 +177,12 @@
         <div id="closing-section"
             class="hidden glass rounded-3xl p-8 md:p-12 max-w-2xl w-full text-center fade-in max-h-[80vh] overflow-y-auto scroll-hide">
             <div class="text-pink-500 text-4xl mb-6">❤️</div>
-
-            <div class="space-y-6 text-gray-700 leading-relaxed text-lg text-left italic font-light">
-                <h2 class="text-2xl text-pink-600 font-semibold mb-4 text-center not-italic">Closing Note</h2>
-                <p>What we just shared wasn’t just questions and dares. It was little pieces of us opening up, learning
-                    each other, and choosing to understand each other more.</p>
-
-                <p>Getting to know someone isn’t about rushing to the finish — it’s about enjoying every step, every
-                    answer, every laugh, every pause.</p>
-
-                <div class="py-6 border-y border-pink-100 space-y-4 text-pink-600 font-medium not-italic text-center">
-                    <p>I like that we’re still discovering each other.</p>
-                    <p>I like that there’s more to learn.</p>
-                    <p>I like that there’s more to feel.</p>
-                </div>
-
-                <p>Because that means this is just the beginning of something, not the end of something.</p>
-
-                <p class="text-center font-semibold text-pink-500 not-italic pt-6">
-                    And honestly… <br>
-                    <span class="text-3xl cursive mt-2 block">I’m really glad I’m getting to know you. 💗</span>
+            <div class="bg-pink-50 p-6 rounded-2xl border border-pink-100 my-8">
+                <p class="text-pink-600 font-medium text-center text-xl">
+                    "I really love getting to know you like this. It makes me feel closer to you in the sweetest way.
+                    💕"
                 </p>
             </div>
-
             <button onclick="resetGame()"
                 class="mt-12 text-pink-300 hover:text-pink-500 text-sm transition-colors mb-4">
                 Play Again?
@@ -256,7 +238,7 @@
 
         function toggleMusic() {
             if (!player || !player.playVideo) return;
-
+            
             const state = player.getPlayerState();
             if (state === YT.PlayerState.PLAYING) {
                 player.pauseVideo();
@@ -269,80 +251,93 @@
 
         const gameData = [
             {
-                name: "Intro Round — Soft Start",
-                questions: [
-                    "Who was your first crush?",
-                    "What’s something cute or silly you once did for someone you liked?",
-                    "What’s something that instantly makes you smile no matter what?"
+                name: "🌱 Round 1 — Soft Start",
+                truths: [
+                    "Who was your first crush?", 
+                    "What’s something that instantly makes you smile?",
+                    "What’s a small thing that always makes your day better?",
+                    "What’s something people don’t usually guess about you?"
+                ],
+                dares: [
+                    "Send me your cutest selfie right now.", 
+                    "Say my name in the sweetest way and send a voice note.",
+                    "Send a GIF that represents your personality.",
+                    "Show me something near you that you like a lot."
                 ]
             },
             {
-                name: "Round 1 — Curiosity Sparks",
-                questions: [
-                    "What’s one thing you’ve always wanted to ask me but haven’t?",
-                    "What kind of partner energy excites you the most?",
-                    "If you could plan an ideal date for me, where would you take me and why?",
-                    "What instantly makes you feel close to someone?"
+                name: "✨ Round 2 — Curiosity",
+                truths: [
+                    "What’s something you’ve been curious to ask me?", 
+                    "What kind of energy attracts you most in someone?",
+                    "What’s something you enjoy learning about people you like?",
+                    "What’s something you want someone to understand about you?"
+                ],
+                dares: [
+                    "Send a voice note asking me something you’ve never asked.", 
+                    "Send a song that matches how you feel when you talk to me.",
+                    "Describe me in 3 words.",
+                    "Send a random thought you just had about me."
                 ]
             },
             {
-                name: "Round 2 — Flirty & Fun Truths",
-                questions: [
-                    "What was the first thing you noticed about me?",
+                name: "😏 Round 3 — Flirty Fun",
+                truths: [
+                    "What was the first thing you noticed about me?", 
                     "What small thing gives you butterflies?",
-                    "If we had an inside joke, what would it be?",
-                    "What’s a small gesture from a partner you secretly love?"
+                    "What’s something about me you find attractive?",
+                    "When do you find me most charming?"
+                ],
+                dares: [
+                    "Send your best flirting attempt.", 
+                    "Send a dramatic “I miss you” line like a movie character.",
+                    "Send a selfie with your “thinking about you” face.",
+                    "Record yourself saying something cute to me."
                 ]
             },
             {
-                name: "Round 3 — Dreaming Together",
-                questions: [
-                    "What’s one adventure you’d love for us to go on someday?",
-                    "If we could teleport anywhere right now for a date, where would we go?",
-                    "Have you ever imagined celebrating me for something? What would you do?",
-                    "What does your version of a happy relationship look like?"
+                name: "🌍 Round 4 — Dream Dates",
+                truths: [
+                    "If you planned a date for me, where would you take me?", 
+                    "If we could teleport anywhere together, where would we go?",
+                    "What kind of date do you think suits me best?",
+                    "What would make a day with me perfect for you?"
+                ],
+                dares: [
+                    "Record yourself inviting me on your dream date.", 
+                    "Send a picture of something near you that reminds you of me.",
+                    "Describe our dream date like a movie trailer.",
+                    "Send a voice note pretending you’re picking me up for a date."
                 ]
             },
             {
-                name: "Round 4 — Distance Dares",
-                questions: [
-                    "Record yourself singing one line of a song for me.",
-                    "Send a goofy dance video like we’re dancing together.",
-                    "Send a voice note inviting me on a date you planned.",
-                    "Take a photo of something near you that reminds you of me and explain why.",
-                    "Create a “virtual hug” however you want and send it.",
-                    "Send a short goodnight or good morning message I can replay.",
-                    "Send a mystery text I’ll only understand after our next call.",
-                    "Record three things you’re curious to learn about me.",
-                    "Send a meme that represents us.",
-                    "Act out your “thinking about you” face and send it."
+                name: "💫 Round 5 — Deeper Connection",
+                truths: [
+                    "What helps you feel emotionally close to someone?", 
+                    "What makes you feel safe enough to open up?",
+                    "What does trust mean to you in a relationship?",
+                    "What’s something you’re working on improving in yourself?"
+                ],
+                dares: [
+                    "Tell me one thing you admire about me in a voice note.", 
+                    "Send a message describing how you think I make you feel.",
+                    "Share a small memory you have of me.",
+                    "Send a heartfelt compliment without overthinking."
                 ]
             },
             {
-                name: "Round 5 — Deeper Connection",
-                questions: [
-                    "What does emotional intimacy mean to you?",
-                    "What helps you feel safe with someone?",
-                    "What’s something you’re working on in yourself right now?",
-                    "How do you think trust is built between two people?"
-                ]
-            },
-            {
-                name: "Round 6 — Romantic Vision",
-                questions: [
-                    "What’s something small you imagine us doing together that makes you smile?",
-                    "If you planned a surprise day just for me, what would it look like?",
-                    "What’s something romantic you’d love for us to experience someday?",
-                    "What does love feel like when it’s real, in your opinion?"
-                ]
-            },
-            {
-                name: "Final Round — Deep Bonding",
-                questions: [
-                    "What’s something you hope we always keep between us?",
-                    "How do you think we could help each other grow?",
-                    "What’s something you appreciate about me that you’ve never said?",
-                    "Where do you see us emotionally if everything goes right?"
+                name: "🤍 Round 6 — Bonding Finale",
+                truths: [
+                    "What’s something you appreciate about me that you haven’t said?", 
+                    "What do you hope we always keep between us?",
+                    "What kind of future moments with me make you smile?",
+                    "What does love feel like to you when it’s real?"
+                ],
+                dares: [
+                    "Send a message from “future you” one year from now.", 
+                    "Send a virtual hug however you imagine it.",
+                    "Record yourself saying something you’d tell me if I were right next to you.",
+                    "Send a final message describing what you feel about me right now."
                 ]
             }
         ];
@@ -351,12 +346,7 @@
 
         function startGame() {
             const opinion = document.getElementById('opinion-input').value.trim();
-            if (!opinion) {
-                const box = document.getElementById('opinion-input');
-                box.classList.add('border-red-300');
-                setTimeout(() => box.classList.remove('border-red-300'), 1000);
-                return;
-            }
+            if (!opinion) return;
 
             if (player && typeof player.playVideo === 'function') {
                 const state = player.getPlayerState();
@@ -375,60 +365,41 @@
         function updateRoundUI() {
             const roundData = gameData[currentRound];
             document.getElementById('round-indicator').innerText = roundData.name;
-            document.getElementById('challenge-text').innerText = "Pick Truth or Dare for " + roundData.name;
-            document.getElementById('round-title-display').innerText = "";
+            document.getElementById('challenge-text').innerText = "Choose your fate...";
+            document.getElementById('choice-buttons').classList.remove('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('finish-btn').classList.add('hidden');
+            document.getElementById('card-display').className = "bg-white rounded-2xl p-10 mb-8 min-h-[250px] flex flex-col items-center justify-center border-2 border-pink-50 shadow-inner card-inner relative overflow-hidden";
+        }
 
+        function getTruth() { displayChallenge("Truth"); }
+        function getDare() { displayChallenge("Dare"); }
+
+        function displayChallenge(type) {
+            const card = document.getElementById('card-display');
+            const text = document.getElementById('challenge-text');
+            const roundData = gameData[currentRound];
+            const questions = type === "Truth" ? roundData.truths : roundData.dares;
+            const randomQ = questions[Math.floor(Math.random() * questions.length)];
+            
+            text.innerText = `${type.toUpperCase()}: ${randomQ}`;
+            document.getElementById('choice-buttons').classList.add('hidden');
+            
             if (currentRound === gameData.length - 1) {
-                document.getElementById('next-btn').classList.add('hidden');
                 document.getElementById('finish-btn').classList.remove('hidden');
             } else {
                 document.getElementById('next-btn').classList.remove('hidden');
-                document.getElementById('finish-btn').classList.add('hidden');
             }
         }
 
         function nextRound() {
-            currentRound = (currentRound + 1) % gameData.length;
+            currentRound++;
             updateRoundUI();
-            const card = document.getElementById('card-display');
-            card.classList.add('scale-95');
-            setTimeout(() => card.classList.remove('scale-95'), 200);
-        }
-
-        function getTruth() {
-            displayQuestion("Truth");
-        }
-
-        function getDare() {
-            displayQuestion("Dare");
-        }
-
-        function displayQuestion(type) {
-            const card = document.getElementById('card-display');
-            const text = document.getElementById('challenge-text');
-            const roundTitle = document.getElementById('round-title-display');
-            const roundData = gameData[currentRound];
-
-            card.style.transform = type === "Truth" ? "rotateY(5deg)" : "rotateY(-5deg)";
-
-            setTimeout(() => {
-                const randomQ = roundData.questions[Math.floor(Math.random() * roundData.questions.length)];
-                text.innerText = `${type}: ${randomQ}`;
-                roundTitle.innerText = roundData.name;
-                card.style.transform = "rotateY(0deg)";
-
-                if (type === "Truth") {
-                    card.className = "bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-blue-200 shadow-inner card-inner";
-                } else {
-                    card.className = "bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-pink-200 shadow-inner card-inner";
-                }
-            }, 150);
         }
 
         function showClosing() {
             document.getElementById('game-section').classList.add('hidden');
             document.getElementById('closing-section').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function resetGame() {
@@ -436,8 +407,6 @@
             document.getElementById('game-section').classList.add('hidden');
             document.getElementById('closing-section').classList.add('hidden');
             document.getElementById('intro-section').classList.remove('hidden');
-            document.getElementById('opinion-input').value = "";
-            document.getElementById('challenge-text').innerText = "Choose your fate...";
         }
     </script>
 </body>
