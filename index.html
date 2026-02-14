@@ -180,34 +180,24 @@
             <div class="text-pink-500 text-4xl mb-6">❤️</div>
 
             <div class="space-y-6 text-gray-700 leading-relaxed text-lg text-left italic font-light">
-                <p>If tonight reminded us of anything, it’s this: love isn’t limited by distance, time, or circumstance.
-                    It travels quietly between messages, lives inside shared laughter, and grows stronger in the simple
-                    moments when we show up for each other.</p>
+                <h2 class="text-2xl text-pink-600 font-semibold mb-4 text-center not-italic">Closing Note</h2>
+                <p>What we just shared wasn’t just questions and dares. It was little pieces of us opening up, learning
+                    each other, and choosing to understand each other more.</p>
 
-                <p>Love like this doesn’t need grand stages or perfect timing — it exists in the warmth we feel knowing
-                    someone out there cares deeply, genuinely, endlessly.</p>
+                <p>Getting to know someone isn’t about rushing to the finish — it’s about enjoying every step, every
+                    answer, every laugh, every pause.</p>
 
                 <div class="py-6 border-y border-pink-100 space-y-4 text-pink-600 font-medium not-italic text-center">
-                    <p>Love is in the way we remember small details about one another.</p>
-                    <p>Love is in the way we listen.</p>
-                    <p>Love is in the way we stay.</p>
+                    <p>I like that we’re still discovering each other.</p>
+                    <p>I like that there’s more to learn.</p>
+                    <p>I like that there’s more to feel.</p>
                 </div>
 
-                <p>What we shared here wasn’t just a game. It was a reminder that we are surrounded by hearts that
-                    choose us, support us, and celebrate us exactly as we are. That kind of love is rare. It’s the kind
-                    that makes ordinary days brighter, heavy days lighter, and life infinitely softer.</p>
-
-                <p>So wherever life takes you next, carry this feeling with you — the feeling of being seen,
-                    appreciated, and truly loved. Because you are not just someone passing through people’s lives. You
-                    are someone who leaves warmth behind, someone who makes hearts feel safe, someone who matters more
-                    than words can ever fully express.</p>
-
-                <p>And no matter how far apart we may be, that love stays. Always.</p>
+                <p>Because that means this is just the beginning of something, not the end of something.</p>
 
                 <p class="text-center font-semibold text-pink-500 not-italic pt-6">
-                    Because real love — the kind we share — doesn’t fade. It stays, it grows, and it quietly reminds us:
-                    <br>
-                    <span class="text-3xl cursive mt-2 block">we belong in each other’s lives. 💗</span>
+                    And honestly… <br>
+                    <span class="text-3xl cursive mt-2 block">I’m really glad I’m getting to know you. 💗</span>
                 </p>
             </div>
 
@@ -266,7 +256,7 @@
 
         function toggleMusic() {
             if (!player || !player.playVideo) return;
-            
+
             const state = player.getPlayerState();
             if (state === YT.PlayerState.PLAYING) {
                 player.pauseVideo();
@@ -279,66 +269,80 @@
 
         const gameData = [
             {
-                name: "Round 1 — Icebreaker",
+                name: "Intro Round — Soft Start",
                 questions: [
-                    "What fictional universe do I belong in?",
-                    "What vibe do I give off?",
-                    "What superpower do I secretly have?",
-                    "What song matches my personality?"
+                    "Who was your first crush?",
+                    "What’s something cute or silly you once did for someone you liked?",
+                    "What’s something that instantly makes you smile no matter what?"
                 ]
             },
             {
-                name: "Round 2 — Funny Truths",
+                name: "Round 1 — Curiosity Sparks",
                 questions: [
-                    "What’s something I say a lot?",
-                    "What’s a habit of mine that makes you laugh?",
-                    "What emoji represents me?",
-                    "When have I been unintentionally hilarious?"
+                    "What’s one thing you’ve always wanted to ask me but haven’t?",
+                    "What kind of partner energy excites you the most?",
+                    "If you could plan an ideal date for me, where would you take me and why?",
+                    "What instantly makes you feel close to someone?"
                 ]
             },
             {
-                name: "Round 3 — Geeky Round",
+                name: "Round 2 — Flirty & Fun Truths",
                 questions: [
-                    "If I were software, what features would I have?",
-                    "What programming language matches me?",
-                    "What bug would I have and how would you fix it?",
-                    "What would my system update notes say?"
+                    "What was the first thing you noticed about me?",
+                    "What small thing gives you butterflies?",
+                    "If we had an inside joke, what would it be?",
+                    "What’s a small gesture from a partner you secretly love?"
                 ]
             },
             {
-                name: "Round 4 — Heart Round",
+                name: "Round 3 — Dreaming Together",
                 questions: [
-                    "What do you admire about me?",
-                    "What’s your favorite memory with me?",
-                    "What’s something you think I’m really good at?",
-                    "What makes me unique?"
+                    "What’s one adventure you’d love for us to go on someday?",
+                    "If we could teleport anywhere right now for a date, where would we go?",
+                    "Have you ever imagined celebrating me for something? What would you do?",
+                    "What does your version of a happy relationship look like?"
                 ]
             },
             {
-                name: "Round 5 — Dares",
+                name: "Round 4 — Distance Dares",
                 questions: [
-                    "Describe yourself like a movie trailer.",
-                    "Narrate your life like a documentary.",
-                    "Show the weirdest object near you.",
-                    "Sing 5 seconds of your theme song."
+                    "Record yourself singing one line of a song for me.",
+                    "Send a goofy dance video like we’re dancing together.",
+                    "Send a voice note inviting me on a date you planned.",
+                    "Take a photo of something near you that reminds you of me and explain why.",
+                    "Create a “virtual hug” however you want and send it.",
+                    "Send a short goodnight or good morning message I can replay.",
+                    "Send a mystery text I’ll only understand after our next call.",
+                    "Record three things you’re curious to learn about me.",
+                    "Send a meme that represents us.",
+                    "Act out your “thinking about you” face and send it."
                 ]
             },
             {
-                name: "Round 6 — Chaos Finale",
+                name: "Round 5 — Deeper Connection",
                 questions: [
-                    "What would my biography title be?",
-                    "What’s my biggest main-character trait?",
-                    "What would my catchphrase be?",
-                    "What role would I play in a movie?"
+                    "What does emotional intimacy mean to you?",
+                    "What helps you feel safe with someone?",
+                    "What’s something you’re working on in yourself right now?",
+                    "How do you think trust is built between two people?"
                 ]
             },
             {
-                name: "Round 7 — Deep Bonding Finale",
+                name: "Round 6 — Romantic Vision",
                 questions: [
-                    "What’s one thing you hope we always keep in our relationship?",
-                    "How do you think we’ve helped each other grow?",
-                    "What’s something you appreciate about our bond that you’ve never said before?",
-                    "Where do you see us years from now?"
+                    "What’s something small you imagine us doing together that makes you smile?",
+                    "If you planned a surprise day just for me, what would it look like?",
+                    "What’s something romantic you’d love for us to experience someday?",
+                    "What does love feel like when it’s real, in your opinion?"
+                ]
+            },
+            {
+                name: "Final Round — Deep Bonding",
+                questions: [
+                    "What’s something you hope we always keep between us?",
+                    "How do you think we could help each other grow?",
+                    "What’s something you appreciate about me that you’ve never said?",
+                    "Where do you see us emotionally if everything goes right?"
                 ]
             }
         ];
@@ -404,15 +408,15 @@
             const text = document.getElementById('challenge-text');
             const roundTitle = document.getElementById('round-title-display');
             const roundData = gameData[currentRound];
-            
+
             card.style.transform = type === "Truth" ? "rotateY(5deg)" : "rotateY(-5deg)";
-            
+
             setTimeout(() => {
                 const randomQ = roundData.questions[Math.floor(Math.random() * roundData.questions.length)];
                 text.innerText = `${type}: ${randomQ}`;
                 roundTitle.innerText = roundData.name;
                 card.style.transform = "rotateY(0deg)";
-                
+
                 if (type === "Truth") {
                     card.className = "bg-white rounded-2xl p-10 mb-8 min-h-[220px] flex flex-col items-center justify-center border-2 border-blue-200 shadow-inner card-inner";
                 } else {
